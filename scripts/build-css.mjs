@@ -101,11 +101,16 @@ katexCss = katexCss.replace(/url\(fonts\/([^)]+)\)/g, (m, f) => {
 cpSync(join(ROOT, "node_modules/katex/dist/katex.min.js"), join(STATIC, "katex", "katex.min.js"));
 cpSync(join(ROOT, "node_modules/katex/dist/contrib/auto-render.min.js"), join(STATIC, "katex", "auto-render.min.js"));
 
-// --- 3b. Expressive Code client runtime (vendored from the Astro build output) ---
-cpSync(join(ROOT, "dist/_astro/ec.g1fg5.js"), join(STATIC, "js", "ec.js"));
+// --- 3b. Expressive Code client runtime (vendored) ---
+// These two files are the client runtime + core CSS that Astro's build
+// bundles from @expressive-code/core 0.41.4 (dist/_astro/ec.g1fg5.js and
+// ec.4fsv9.css). They are committed under scripts/vendor/ because the
+// Astro build output (dist/) is not part of this repo. If the
+// @expressive-code version changes, re-vendor them from a fresh Astro build.
+cpSync(join(ROOT, "scripts/vendor/ec-runtime.js"), join(STATIC, "js", "ec.js"));
 
-// --- 4. Expressive Code core CSS (vendored from the Astro build output) ---
-const ecCoreCss = read("dist/_astro/ec.4fsv9.css");
+// --- 4. Expressive Code core CSS (vendored) ---
+const ecCoreCss = read("scripts/vendor/ec-core.css");
 
 // --- 5. OverlayScrollbars + PhotoSwipe CSS ---
 const overlayCss = read("node_modules/overlayscrollbars/styles/overlayscrollbars.css");

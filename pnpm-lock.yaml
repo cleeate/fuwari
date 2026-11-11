@@ -29,7 +29,16 @@ importers:
       '@expressive-code/plugin-collapsible-sections':
         specifier: ^0.41.4
         version: 0.41.4
+      '@expressive-code/plugin-frames':
+        specifier: ^0.41.4
+        version: 0.41.4
       '@expressive-code/plugin-line-numbers':
+        specifier: ^0.41.4
+        version: 0.41.4
+      '@expressive-code/plugin-shiki':
+        specifier: ^0.41.4
+        version: 0.41.4
+      '@expressive-code/plugin-text-markers':
         specifier: ^0.41.4
         version: 0.41.4
       '@fontsource-variable/jetbrains-mono':
@@ -10865,7 +10874,7 @@ snapshots:
       '@parcel/watcher': 2.5.1
       chokidar: 4.0.3
       immutable: 4.3.7
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
     optional: true
 
   sax@1.4.1: {}
