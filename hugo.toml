@@ -120,7 +120,7 @@ url = "https://store.steampowered.com"
 [[params.profile.links]]
 name = "GitHub"
 icon = "fa6-brands:github"
-url = "https://github.com/saicaca/fuwari"
+url = "https://github.com/cleeate/fuwari"
 
 [[params.navbarLinks]]
 preset = "home"
@@ -133,5 +133,5 @@ preset = "about"
 url = "/about/"
 [[params.navbarLinks]]
 name = "GitHub"
-url = "https://github.com/saicaca/fuwari"
+url = "https://github.com/cleeate/fuwari"
 external = true

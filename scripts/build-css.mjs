@@ -35,33 +35,17 @@ function compileStylus(srcPath, outName) {
 
 const variablesCss = compileStylus("src/styles/variables.styl", "variables.css");
 const markdownExtendCss = compileStylus("src/styles/markdown-extend.styl", "markdown-extend.css");
+// The BackToTop / DisplaySettings stylus blocks used to live inside their
+// .astro/.svelte components; they now live in src/styles/ (the Astro and
+// Svelte sources were removed).
+const backToTopCss = compileStylus("src/styles/backtotop.styl", "backtotop.css");
+const displaySettingsCss = compileStylus("src/styles/display-settings.styl", "display-settings.css");
 
-// Extract <style lang="stylus"> blocks from components and compile them.
-function extractStylus(file, outName) {
-  const src = read(file);
-  const m = src.match(/<style lang="stylus">([\s\S]*?)<\/style>/);
-  if (!m) throw new Error(`no stylus block in ${file}`);
-  const tmp = join(CSS, outName + ".styl");
-  writeFileSync(tmp, m[1]);
-  execSync(`./node_modules/.bin/stylus "${tmp}" --out "${join(CSS, outName)}" --compress`, { stdio: "pipe" });
-  return read(join(".hugo", "css", outName));
-}
-const backToTopCss = extractStylus("src/components/control/BackToTop.astro", "backtotop.css");
-const displaySettingsCss = extractStylus("src/components/widget/DisplaySettings.svelte", "display-settings.css");
-
-// Extract plain <style> blocks (Search.svelte, Layout.astro banner).
-function extractStyle(file, re) {
-  const src = read(file);
-  const m = src.match(re);
-  if (!m) throw new Error(`no style block in ${file}`);
-  return m[1];
-}
-const searchCss = extractStyle("src/components/Search.svelte", /<style>([\s\S]*?)<\/style>/);
-// Layout.astro's global banner style block (uses @tailwind/@apply).
-const layoutBannerCss = extractStyle(
-  "src/layouts/Layout.astro",
-  /<style is:global[^>]*>([\s\S]*?)<\/style>/,
-);
+// Plain <style> blocks: the Search input/panel rules and Layout's global
+// banner rules. They used to live in Search.svelte / Layout.astro; they
+// now live in src/styles/ (read as plain strings into the entry below).
+const searchCss = read("src/styles/search.css");
+const layoutBannerCss = read("src/styles/banner.css");
 
 // --- 2. Fonts: rewrite @fontsource CSS urls to /fonts/<file>, copy the files ---
 function vendorFontCss(cssPaths, urlPrefix, destDir) {

@@ -1,14 +1,14 @@
 # 🍥Fuwari
 
-[Astro](https://astro.build) で構築された静的ブログテンプレート
+[Hugo](https://gohugo.io/) で構築された静的ブログテンプレート
 
-[**🖥️ライブデモ (Vercel)**](https://fuwari.vercel.app)
+[**🖥️ライブデモ (GitHub Pages)**](https://cleeate.github.io/fuwari)
 
 ![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
 
 ## ✨ 特徴
 
-- [x] [Astro](https://astro.build) 及び [Tailwind CSS](https://tailwindcss.com) で構築
+- [x] [Hugo](https://gohugo.io/) 及び [Tailwind CSS](https://tailwindcss.com) で構築
 - [x] スムーズなアニメーションとページ遷移
 - [x] ライト/ダークテーマ対応
 - [x] カスタマイズ可能なテーマカラーとバナー
@@ -45,16 +45,16 @@ deno run -A npm:create-fuwari@latest
 
 1. `src/config.ts` ファイルを編集する事でブログを自分好みにカスタマイズ出来ます。
 2. `pnpm new-post <filename>` で新しい記事を作成し、`src/content/posts/`.フォルダ内で編集します。
-3. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://docs.astro.build/ja/guides/deploy/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
+3. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://gohugo.io/hosting-and-deployment/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
 
 ## 🚀 使用方法 2
 
-1. [テンプレート](https://github.com/saicaca/fuwari/generate)から新しいリポジトリを作成するかCloneをします。
+1. [テンプレート](https://github.com/cleeate/fuwari/generate)から新しいリポジトリを作成するかCloneをします。
 2. ブログをローカルで編集するには、リポジトリをクローンした後、`pnpm install` と `pnpm add sharp` を実行して依存関係をインストールします。  
    - [pnpm](https://pnpm.io) がインストールされていない場合は `npm install -g pnpm` で導入可能です。
 3. `src/config.ts` ファイルを編集する事でブログを自分好みにカスタマイズ出来ます。
 4. `pnpm new-post <filename>` で新しい記事を作成し、`src/content/posts/`.フォルダ内で編集します。
-5. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://docs.astro.build/ja/guides/deploy/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
+5. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://gohugo.io/hosting-and-deployment/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
 
 ## ⚙️ 記事のフロントマター
 
@@ -62,7 +62,7 @@ deno run -A npm:create-fuwari@latest
 ---
 title: My First Blog Post
 published: 2023-09-09
-description: This is the first post of my new Astro blog.
+description: This is the first post of my new Hugo blog.
 image: /images/cover.jpg
 tags: [Foo, Bar]
 category: Front-end
@@ -81,5 +81,3 @@ draft: false
 | `pnpm build`                        | `./dist/` にビルド内容を出力                         |
 | `pnpm preview`                      | デプロイ前の内容をローカルでプレビュー                         |
 | `pnpm new-post <filename>`          | 新しい投稿を作成                                    |
-| `pnpm astro ...`                    | `astro add`, `astro check` の様なコマンドを実行する際に使用 |
-| `pnpm astro --help`                 | Astro CLIのヘルプを表示                            |
