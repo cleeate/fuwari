@@ -1,0 +1,25 @@
+{{/* License.astro. Context: dict "page" (post Page) "class" */}}
+{{- $page := .page -}}
+<div class="relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 {{ .class }}">
+<div class="transition font-bold text-black/75 dark:text-white/75">
+{{ $page.Title }}
+</div>
+<a href="{{ $page.Permalink }}" class="link text-[var(--primary)]">
+{{ $page.Permalink }}
+</a>
+<div class="flex gap-6 mt-2">
+<div>
+<div class="transition text-black/30 dark:text-white/30 text-sm">{{ i18n "author" }}</div>
+<div class="transition text-black/75 dark:text-white/75 line-clamp-2">{{ site.Params.profile.name }}</div>
+</div>
+<div>
+<div class="transition text-black/30 dark:text-white/30 text-sm">{{ i18n "publishedAt" }}</div>
+<div class="transition text-black/75 dark:text-white/75 line-clamp-2">{{ $page.Date.UTC.Format "2006-01-02" }}</div>
+</div>
+<div>
+<div class="transition text-black/30 dark:text-white/30 text-sm">{{ i18n "license" }}</div>
+<a href="{{ site.Params.licenseUrl }}" target="_blank" class="link text-[var(--primary)] line-clamp-2">{{ site.Params.licenseName }}</a>
+</div>
+</div>
+{{ partial "icon.html" (dict "name" "fa6-brands:creative-commons" "class" "transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5" "ctx" .page) }}
+</div>

@@ -1,0 +1,57 @@
+{{/* GitHub repo card — verbatim translation of src/plugins/rehype-component-github-card.mjs.
+Context: dict "repo" (owner/name) "id" (unique card id). */}}
+{{- $repo := .repo -}}
+{{- $id := .id -}}
+{{- $parts := split $repo "/" -}}
+{{- $owner := index $parts 0 -}}
+{{- $name := index $parts 1 -}}
+<a id="{{ $id }}-card" class="card-github fetch-waiting no-styling" href="https://github.com/{{ $repo }}" target="_blank" repo="{{ $repo }}">
+<div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="{{ $id }}-avatar" class="gc-avatar"></div><div class="gc-user">{{ $owner }}</div></div><div class="gc-divider">/</div><div class="gc-repo">{{ $name }}</div></div><div class="github-logo"></div></div>
+<div id="{{ $id }}-description" class="gc-description">Waiting for api.github.com...</div>
+<div class="gc-infobar"><div id="{{ $id }}-stars" class="gc-stars">00K</div><div id="{{ $id }}-forks" class="gc-forks">0K</div><div id="{{ $id }}-license" class="gc-license">0K</div><span id="{{ $id }}-language" class="gc-language">Waiting...</span></div>
+<script id="{{ $id }}-script" type="text/javascript" defer>
+fetch('https://api.github.com/repos/{{ $repo }}', { referrerPolicy: "no-referrer" }).then((response) => {
+  if (!response.ok) throw new Error("Failed to fetch");
+  return response.json();
+}).then((data) => {
+  const card = document.getElementById('{{ $id }}-card');
+  card.classList.remove('fetch-waiting');
+  const avatar = document.getElementById('{{ $id }}-avatar');
+  const description = document.getElementById('{{ $id }}-description');
+  const stars = document.getElementById('{{ $id }}-stars');
+  const forks = document.getElementById('{{ $id }}-forks');
+  const license = document.getElementById('{{ $id }}-license');
+  const language = document.getElementById('{{ $id }}-language');
+  if (data.owner && data.owner.avatar_url) {
+    avatar.style.backgroundImage = `url(${data.owner.avatar_url})`;
+  }
+  if (data.description) {
+    description.textContent = data.description;
+  }
+  if (data.stargazers_count !== undefined) {
+    stars.textContent = formatNumber(data.stargazers_count);
+  }
+  if (data.forks_count !== undefined) {
+    forks.textContent = formatNumber(data.forks_count);
+  }
+  if (data.license && data.license.spdx_id) {
+    license.textContent = data.license.spdx_id;
+  } else {
+    license.style.display = 'none';
+  }
+  if (data.language) {
+    language.textContent = data.language;
+  }
+}).catch((error) => {
+  console.error('Error fetching GitHub repo data:', error);
+  const card = document.getElementById('{{ $id }}-card');
+  card.classList.remove('fetch-waiting');
+});
+function formatNumber(num) {
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  }
+  return num.toString();
+}
+</script>
+</a>

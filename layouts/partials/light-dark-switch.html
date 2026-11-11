@@ -1,0 +1,30 @@
+{{/* LightDarkSwitch.svelte — rendered statically with mode=auto (the default); behavior in assets/js/light-dark.js */}}
+<div class="relative z-50" role="menu" tabindex="-1" id="light-dark-switch">
+<button aria-label="Light/Dark Mode" role="menuitem" class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="scheme-switch">
+<div class="absolute opacity-0" data-mode-icon="light">
+{{ partial "icon.html" (dict "name" "material-symbols:wb-sunny-outline-rounded" "class" "text-[1.25rem]" "ctx" .) }}
+</div>
+<div class="absolute opacity-0" data-mode-icon="dark">
+{{ partial "icon.html" (dict "name" "material-symbols:dark-mode-outline-rounded" "class" "text-[1.25rem]" "ctx" .) }}
+</div>
+<div class="absolute" data-mode-icon="auto">
+{{ partial "icon.html" (dict "name" "material-symbols:radio-button-partial-outline" "class" "text-[1.25rem]" "ctx" .) }}
+</div>
+</button>
+<div id="light-dark-panel" class="hidden lg:block absolute transition float-panel-closed top-11 -right-2 pt-5">
+<div class="card-base float-panel p-2">
+<button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5" data-theme-btn="light">
+{{ partial "icon.html" (dict "name" "material-symbols:wb-sunny-outline-rounded" "class" "text-[1.25rem] mr-3" "ctx" .) }}
+{{ i18n "lightMode" }}
+</button>
+<button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5" data-theme-btn="dark">
+{{ partial "icon.html" (dict "name" "material-symbols:dark-mode-outline-rounded" "class" "text-[1.25rem] mr-3" "ctx" .) }}
+{{ i18n "darkMode" }}
+</button>
+<button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 current-theme-btn" data-theme-btn="auto">
+{{ partial "icon.html" (dict "name" "material-symbols:radio-button-partial-outline" "class" "text-[1.25rem] mr-3" "ctx" .) }}
+{{ i18n "systemMode" }}
+</button>
+</div>
+</div>
+</div>

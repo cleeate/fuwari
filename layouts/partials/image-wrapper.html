@@ -1,0 +1,34 @@
+{{/* ImageWrapper.astro. Context: dict "page" (optional) "src" "alt" "position" "id" "class" */}}
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $position := .position | default "center" -}}
+{{- $isLocal := not (or (hasPrefix $src "/") (hasPrefix $src "http") (hasPrefix $src "https") (hasPrefix $src "data:")) -}}
+{{- $isPublic := hasPrefix $src "/" -}}
+{{- $imgURL := "" -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- if $isLocal -}}
+  {{- $res := false -}}
+  {{- if .page -}}
+    {{- $res = .page.Resources.GetMatch (strings.TrimPrefix "./" $src) -}}
+  {{- end -}}
+  {{- if not $res -}}
+    {{- $res = resources.Get $src -}}
+  {{- end -}}
+  {{- if $res -}}
+    {{- $processed := $res.Process "webp" -}}
+    {{- $imgURL = $processed.RelPermalink -}}
+    {{- $width = $processed.Width -}}
+    {{- $height = $processed.Height -}}
+  {{- end -}}
+{{- else if $isPublic -}}
+  {{- $imgURL = (strings.TrimPrefix "/" $src) | relURL -}}
+{{- else -}}
+  {{- $imgURL = $src -}}
+{{- end -}}
+<div{{ with .id }} id="{{ . }}"{{ end }} class="{{ .class }} overflow-hidden relative">
+<div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div>
+{{- if $imgURL }}
+<img src="{{ $imgURL }}" alt="{{ $alt }}" class="w-full h-full object-cover" style="object-position: {{ $position }}" loading="lazy" decoding="async" fetchpriority="auto"{{ if $width }} width="{{ $width }}" height="{{ $height }}"{{ end }} />
+{{- end }}
+</div>

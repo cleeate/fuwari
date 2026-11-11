@@ -1,0 +1,12 @@
+{{/* Tags.astro. Context: dict "page" . "class" "style" */}}
+{{- $tags := partial "tag-list.html" .page -}}
+{{- $isCollapsed := ge (len $tags) 20 -}}
+{{- $content := "<div class=\"flex gap-2 flex-wrap\">" -}}
+{{- $archiveBase := "archive/" | relURL -}}
+{{- range $tags }}
+  {{- $href := printf "%s?tag=%s" $archiveBase (replace (urlquery .name) "+" "%20") -}}
+  {{- $btn := partial "button-tag.html" (dict "href" $href "label" (printf "View all posts with the %s tag" (trim .name " ")) "content" (trim .name " ")) -}}
+  {{- $content = printf "%s%s" $content $btn -}}
+{{- end -}}
+{{- $content = printf "%s</div>" $content -}}
+{{ partial "widget-layout.html" (dict "page" .page "id" "tags" "name" (i18n "tags") "isCollapsed" $isCollapsed "collapsedHeight" "7.5rem" "class" .class "style" .style "content" $content) }}

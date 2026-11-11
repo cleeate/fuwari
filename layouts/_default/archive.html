@@ -1,0 +1,12 @@
+{{/* Archive page — ArchivePanel.svelte renders the groups client-side from JSON */}}
+{{ define "main" }}
+{{- $posts := slice -}}
+{{- range sort (where site.RegularPages "Section" "posts") ".Date" "desc" -}}
+  {{- $slug := strings.TrimSuffix "/" (strings.TrimPrefix "/posts/" .RelPermalink) -}}
+  {{- $posts = $posts | append (dict "slug" $slug "title" .Title "tags" (.Params.tags | default slice) "category" .Params.category "published" .Date) -}}
+{{- end -}}
+<div class="card-base px-8 py-6">
+<div id="archive-groups"></div>
+</div>
+<script type="application/json" id="archive-data">{{ $posts | jsonify | safeJS }}</script>
+{{ end }}

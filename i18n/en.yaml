@@ -1,0 +1,50 @@
+- id: home
+  translation: "Home"
+- id: about
+  translation: "About"
+- id: archive
+  translation: "Archive"
+- id: search
+  translation: "Search"
+- id: tags
+  translation: "Tags"
+- id: categories
+  translation: "Categories"
+- id: recentPosts
+  translation: "Recent Posts"
+- id: comments
+  translation: "Comments"
+- id: untitled
+  translation: "Untitled"
+- id: uncategorized
+  translation: "Uncategorized"
+- id: noTags
+  translation: "No Tags"
+- id: wordCount
+  translation: "word"
+- id: wordsCount
+  translation: "words"
+- id: minuteCount
+  translation: "minute"
+- id: minutesCount
+  translation: "minutes"
+- id: postCount
+  translation: "post"
+- id: postsCount
+  translation: "posts"
+- id: themeColor
+  translation: "Theme Color"
+- id: lightMode
+  translation: "Light"
+- id: darkMode
+  translation: "Dark"
+- id: systemMode
+  translation: "System"
+- id: more
+  translation: "More"
+- id: author
+  translation: "Author"
+- id: publishedAt
+  translation: "Published at"
+- id: license
+  translation: "License"

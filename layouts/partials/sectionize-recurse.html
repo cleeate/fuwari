@@ -1,0 +1,67 @@
+{{/* Recursive worker for sectionize.html (remark-sectionize).
+Context: dict "rest" "out" "stack" (slice of dicts {"d": depth, "bq": bool}).
+A section opened inside a <blockquote> (e.g. a heading inside a quoted block)
+is a child of the blockquote in the original's mdast, so it must close BEFORE
+the blockquote's </blockquote> — the stack tracks which sections are inside
+one. The `bq` entries always form a suffix of the stack. */}}
+{{- $rest := .rest -}}
+{{- $out := .out -}}
+{{- $stack := .stack -}}
+{{- $heads := findRE `<h[1-6][^>]*>.*?</h[1-6]>` $rest 1 -}}
+{{- if not $heads -}}
+  {{- /* Trailing content stays INSIDE the still-open sections, except that
+       sections opened inside a blockquote close before its </blockquote>. */ -}}
+  {{- $anyBQ := false -}}
+  {{- range $stack }}{{ if .bq }}{{ $anyBQ = true }}{{ end }}{{ end -}}
+  {{- $parts := split $rest "</blockquote>" -}}
+  {{- if and $anyBQ (gt (len $parts) 1) -}}
+    {{- $out = printf "%s%s" $out (index $parts 0) -}}
+    {{- range $stack }}{{ if .bq }}{{ $out = printf "%s</section>" $out }}{{ end }}{{ end -}}
+    {{- $out = printf "%s</blockquote>%s" $out (delimit (after 1 $parts) "</blockquote>") -}}
+    {{- range $stack }}{{ if not .bq }}{{ $out = printf "%s</section>" $out }}{{ end }}{{ end -}}
+    {{- return $out -}}
+  {{- end -}}
+  {{- $out = printf "%s%s" $out $rest -}}
+  {{- range $stack }}{{ $out = printf "%s</section>" $out }}{{ end -}}
+  {{- return $out -}}
+{{- end -}}
+{{- $h := index $heads 0 -}}
+{{- $parts := split $rest $h -}}
+{{- $before := index $parts 0 -}}
+{{- /* split/join are inverse; substr+len would mix byte and rune offsets */ -}}
+{{- $after := delimit (after 1 $parts) $h -}}
+{{- $levelStr := index (findRE `[1-6]` $h 1) 0 -}}
+{{- $d := int $levelStr -}}
+{{- /* Is this heading inside a blockquote? Count unclosed ones before it. */ -}}
+{{- $prefix := printf "%s%s" $out $before -}}
+{{- $inBQ := gt (sub (len (findRE "<blockquote>" $prefix)) (len (findRE "</blockquote>" $prefix))) 0 -}}
+{{- /* Sections to close: depth >= the new heading's, plus every section
+inside a blockquote when the new heading is outside it. */ -}}
+{{- $newStack := slice -}}
+{{- $closeBQ := 0 -}}
+{{- $closeTop := 0 -}}
+{{- range $stack -}}
+  {{- $close := false -}}
+  {{- if ge .d $d }}{{ $close = true }}{{ end -}}
+  {{- if and .bq (not $inBQ) }}{{ $close = true }}{{ end -}}
+  {{- if $close -}}
+    {{- if .bq }}{{ $closeBQ = add $closeBQ 1 }}{{ else }}{{ $closeTop = add $closeTop 1 }}{{ end -}}
+  {{- else -}}
+    {{- $newStack = $newStack | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- /* Content before the heading belongs to the open section(s); sections
+inside a blockquote close before its </blockquote> when one appears here. */ -}}
+{{- $bparts := split $before "</blockquote>" -}}
+{{- if and (gt $closeBQ 0) (gt (len $bparts) 1) -}}
+  {{- $out = printf "%s%s" $out (index $bparts 0) -}}
+  {{- range seq $closeBQ }}{{ $out = printf "%s</section>" $out }}{{ end -}}
+  {{- $out = printf "%s</blockquote>%s" $out (delimit (after 1 $bparts) "</blockquote>") -}}
+  {{- range seq $closeTop }}{{ $out = printf "%s</section>" $out }}{{ end -}}
+{{- else -}}
+  {{- $out = printf "%s%s" $out $before -}}
+  {{- range seq (add $closeBQ $closeTop) }}{{ $out = printf "%s</section>" $out }}{{ end -}}
+{{- end -}}
+{{- $out = printf "%s<section>%s" $out $h -}}
+{{- $newStack = $newStack | append (dict "d" $d "bq" $inBQ) -}}
+{{- return partial "sectionize-recurse.html" (dict "rest" $after "out" $out "stack" $newStack) -}}

@@ -1,0 +1,9 @@
+{{/* Rewrite Goldmark's footnotes block into remark-gfm's form (dist):
+<section data-footnotes> with an h2 + anchor, user-content- ids, and a
+plain-space backref. */}}
+{{- $f := . -}}
+{{- $f = replaceRE `(?s)<div class="footnotes" role="doc-endnotes">\s*<hr>\s*<ol>` "<section data-footnotes=\"\" class=\"footnotes\">\n<h2 class=\"sr-only\" id=\"footnote-label\">Footnotes<a class=\"anchor\" href=\"#footnote-label\"><span class=\"anchor-icon\" data-pagefind-ignore=\"\">#</span></a></h2>\n<ol>" $f -}}
+{{- $f = replaceRE `<li id="fn:(\d+)">` `<li id="user-content-fn-$1">` $f -}}
+{{- $f = replaceRE `&#160;<a href="#fnref:(\d+)" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>` ` <a href="#user-content-fnref-$1" data-footnote-backref="" aria-label="Back to reference $1" class="data-footnote-backref">↩</a>` $f -}}
+{{- $f = replaceRE `(?s)</ol>\s*</div>` "</ol>\n</section>" $f -}}
+{{- return $f -}}

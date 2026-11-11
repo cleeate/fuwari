@@ -1,0 +1,39 @@
+{{/* Pagination.astro. Context: dict "paginator" (.Paginator) "class" "style" */}}
+{{- $p := .paginator -}}
+{{- $ctx := .ctx -}}
+{{- $current := $p.PageNumber -}}
+{{- $last := $p.TotalPages -}}
+{{- $visible := 5 -}}
+{{- $l := math.Max 1 (math.Min (sub $current 2) (sub $last 4)) -}}
+{{- $r := math.Min $last (add $l 4) -}}
+{{- $l = int $l -}}
+{{- $r = int $r -}}
+{{- $pages := slice -}}
+{{- if gt $l 1 }}{{ $pages = $pages | append 1 }}{{ end -}}
+{{- if eq $l 3 }}{{ $pages = $pages | append 2 }}{{ end -}}
+{{- if gt $l 3 }}{{ $pages = $pages | append -1 }}{{ end -}}
+{{- range $i := seq $l $r }}{{ $pages = $pages | append $i }}{{ end -}}
+{{- if lt $r (sub $last 2) }}{{ $pages = $pages | append -1 }}{{ end -}}
+{{- if eq $r (sub $last 2) }}{{ $pages = $pages | append (sub $last 1) }}{{ end -}}
+{{- if lt $r $last }}{{ $pages = $pages | append $last }}{{ end -}}
+<div class="{{ .class }} flex flex-row gap-3 justify-center"{{ with .style }} style="{{ . | safeCSS }}"{{ end }}>
+<a href="{{ with $p.Prev }}{{ .URL }}{{ end }}"{{ if $p.Prev }} aria-label="Previous Page"{{ end }} class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11{{ if not $p.Prev }} disabled{{ end }}">
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-left-rounded" "class" "text-[1.75rem]" "ctx" $ctx) }}
+</a>
+<div class="bg-[var(--card-bg)] flex flex-row rounded-lg items-center text-neutral-700 dark:text-neutral-300 font-bold">
+{{- range $pages }}
+{{- if eq . -1 }}
+{{ partial "icon.html" (dict "name" "material-symbols:more-horiz" "class" "mx-1" "ctx" $ctx) }}
+{{- else if eq . $current }}
+<div class="h-11 w-11 rounded-lg bg-[var(--primary)] flex items-center justify-center font-bold text-white dark:text-black/70">
+{{ . }}
+</div>
+{{- else }}
+<a href="{{ (index $p.Pagers (sub . 1)).URL }}" aria-label="Page {{ . }}" class="btn-card w-11 h-11 rounded-lg overflow-hidden active:scale-[0.85]">{{ . }}</a>
+{{- end }}
+{{- end }}
+</div>
+<a href="{{ with $p.Next }}{{ .URL }}{{ end }}"{{ if $p.Next }} aria-label="Next Page"{{ end }} class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11{{ if not $p.Next }} disabled{{ end }}">
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "text-[1.75rem]" "ctx" $ctx) }}
+</a>
+</div>

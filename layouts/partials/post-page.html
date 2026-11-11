@@ -1,0 +1,7 @@
+{{/* PostPage.astro. Context: dict "pages" (slice of post Pages) "ctx" (rendering page) */}}
+<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+{{- $ctx := .ctx -}}
+{{- range $i, $p := .pages }}
+{{ partial "post-card.html" (dict "ctx" $ctx "page" $p "style" (printf "animation-delay: calc(var(--content-delay) + %dms);" (mul $i 50)) "class" "onload-animation") }}
+{{- end }}
+</div>

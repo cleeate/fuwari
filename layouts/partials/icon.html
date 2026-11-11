@@ -1,0 +1,27 @@
+{{/* Renders an iconify icon, defining its <symbol> inline on first use per page
+(astro-icon's behaviour). Context: dict "name" "class" "ctx" (the page being
+rendered, used to track which icons are already defined).
+Built as a string + safeHTML: Go's html/template would otherwise mangle the
+`data-icon` value (colon) and the <use> href into #ZgotmplZ / %3a. */}}
+{{- $name := .name -}}
+{{- $class := .class | default "" -}}
+{{- $ctx := .ctx -}}
+{{- $icon := index site.Data.icons $name -}}
+{{- if and $icon $ctx -}}
+  {{- $viewBox := printf "0 0 %.0f %.0f" $icon.width $icon.height -}}
+  {{- /* astro-icon widths are aspect-correct, rounded half-up:
+       576x512 -> 1.13em, 496x512 -> 0.97em (Go's %.2f rounds 1.125 to 1.12) */ -}}
+  {{- $ws := printf "%.2f" (div (math.Round (mul (div (float $icon.width) (float $icon.height)) 100)) 100) -}}
+  {{- $ws = replaceRE `0+$` "" $ws -}}
+  {{- $ws = replaceRE `\.$` "" $ws -}}
+  {{- $width := printf "%sem" $ws -}}
+  {{- $classAttr := "" -}}
+  {{- if ne $class "" }}{{ $classAttr = printf ` class="%s"` $class }}{{ end -}}
+  {{- $defined := $ctx.Scratch.Get "icons-defined" | default (dict) -}}
+  {{- if index $defined $name -}}
+    {{- printf `<svg width="%s" height="1em" viewBox="%s"%s data-icon="%s"><use href="#ai:%s"></use></svg>` $width $viewBox $classAttr $name $name | safeHTML -}}
+  {{- else -}}
+    {{- $ctx.Scratch.SetInMap "icons-defined" $name true -}}
+    {{- printf `<svg width="%s" height="1em"%s data-icon="%s"><symbol id="ai:%s" viewBox="%s">%s</symbol><use href="#ai:%s"></use></svg>` $width $classAttr $name $name $viewBox $icon.body $name | safeHTML -}}
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,7 @@
+{{/* [...page].astro — home page with pagination */}}
+{{ define "main" }}
+{{- $posts := where site.RegularPages "Section" "posts" -}}
+{{- $paginator := .Paginate $posts -}}
+{{ partial "post-page.html" (dict "pages" $paginator.Pages "ctx" .) }}
+{{ partial "pagination.html" (dict "ctx" . "paginator" $paginator "class" "mx-auto onload-animation" "style" (printf "animation-delay: calc(var(--content-delay) + %dms)" (mul (len $paginator.Pages) 50))) }}
+{{ end }}

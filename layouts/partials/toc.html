@@ -1,0 +1,27 @@
+{{/* TOC.astro — only renders on post pages. Headings come from
+markdown.html, which extracts them from the rendered HTML
+(.Fragments is unreliable in this Hugo version). */}}
+{{- $headings := .Scratch.Get "toc-headings" -}}
+{{- if and (eq .Section "posts") $headings -}}
+{{- $minDepth := 10 -}}
+{{- range $headings }}{{ if lt .level $minDepth }}{{ $minDepth = .level }}{{ end }}{{ end -}}
+{{- $maxLevel := site.Params.tocDepth -}}
+{{- $counter := 0 -}}
+<table-of-contents class="group">
+{{- range $headings }}
+{{- if lt .level (add $minDepth $maxLevel) }}
+<a href="#{{ .id }}" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2">
+<div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold{{ if eq .level $minDepth }} bg-[var(--toc-badge-bg)] text-[var(--btn-content)]{{ end }}{{ if eq .level (add $minDepth 1) }} ml-4{{ end }}{{ if eq .level (add $minDepth 2) }} ml-8{{ end }}">
+{{- if eq .level $minDepth }}{{ $counter = add $counter 1 }}{{ $counter }}{{ end }}
+{{- if eq .level (add $minDepth 1) }}<div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>{{ end }}
+{{- if eq .level (add $minDepth 2) }}<div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>{{ end }}
+</div>
+{{- $text := .title -}}
+{{- if hasSuffix $text "#" }}{{ $text = substr $text 0 (sub (len $text) 1) }}{{ end }}
+<div class="transition text-sm{{ if or (eq .level $minDepth) (eq .level (add $minDepth 1)) }} text-50{{ end }}{{ if eq .level (add $minDepth 2) }} text-30{{ end }}">{{ $text }}</div>
+</a>
+{{- end }}
+{{- end }}
+<div id="active-indicator" style="opacity: 0" class="{{ if eq (len $headings) 0 }}hidden {{ end }}-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all group-hover:bg-transparent border-2 border-[var(--toc-btn-hover)] group-hover:border-[var(--toc-btn-active)] border-dashed"></div>
+</table-of-contents>
+{{- end -}}

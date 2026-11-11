@@ -1,0 +1,18 @@
+{{/* NavMenuPanel.astro */}}
+{{- $page := . -}}
+{{- $links := site.Params.navbarLinks -}}
+<div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2">
+{{- range $links }}
+{{- $name := or .name (i18n .preset) }}
+<a href="{{ if .external }}{{ .url }}{{ else }}{{ (strings.TrimPrefix "/" .url) | relURL }}{{ end }}" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition"{{ if .external }} target="_blank"{{ end }}>
+<div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+{{ $name }}
+</div>
+{{- if not .external }}
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "transition text-[1.25rem] text-[var(--primary)]" "ctx" $page) }}
+{{- else }}
+{{ partial "icon.html" (dict "name" "fa6-solid:arrow-up-right-from-square" "class" "transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1" "ctx" $page) }}
+{{- end }}
+</a>
+{{- end }}
+</div>

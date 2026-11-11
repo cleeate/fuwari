@@ -1,0 +1,27 @@
+{{/* Markdown transforms: GitHub admonitions (> [!TYPE]), directive admonitions (:::type),
+spoilers (:spoiler[...]) and GitHub repo cards (::github{repo="..."}).
+Input: HTML string. Returns the transformed HTML string. */}}
+{{- $c := . -}}
+{{- /* GitHub-syntax admonitions: > [!TYPE] */ -}}
+{{- $c = replaceRE `(?s)<blockquote>\s*<p>\[!NOTE\]\s*(.*?)</p>\s*</blockquote>` `<blockquote class="admonition bdm-note"><span class="bdm-title">NOTE</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<blockquote>\s*<p>\[!TIP\]\s*(.*?)</p>\s*</blockquote>` `<blockquote class="admonition bdm-tip"><span class="bdm-title">TIP</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<blockquote>\s*<p>\[!IMPORTANT\]\s*(.*?)</p>\s*</blockquote>` `<blockquote class="admonition bdm-important"><span class="bdm-title">IMPORTANT</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<blockquote>\s*<p>\[!WARNING\]\s*(.*?)</p>\s*</blockquote>` `<blockquote class="admonition bdm-warning"><span class="bdm-title">WARNING</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<blockquote>\s*<p>\[!CAUTION\]\s*(.*?)</p>\s*</blockquote>` `<blockquote class="admonition bdm-caution"><span class="bdm-title">CAUTION</span><p>$1</p></blockquote>` $c -}}
+{{- /* Directive admonitions with a custom title: :::type[TITLE] */ -}}
+{{- $c = replaceRE `(?s)<p>:::note\[(.*?)\]\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-note"><span class="bdm-title"><div>$1</div></span><p>$2</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::tip\[(.*?)\]\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-tip"><span class="bdm-title"><div>$1</div></span><p>$2</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::important\[(.*?)\]\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-important"><span class="bdm-title"><div>$1</div></span><p>$2</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::warning\[(.*?)\]\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-warning"><span class="bdm-title"><div>$1</div></span><p>$2</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::caution\[(.*?)\]\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-caution"><span class="bdm-title"><div>$1</div></span><p>$2</p></blockquote>` $c -}}
+{{- /* Directive admonitions: :::type */ -}}
+{{- $c = replaceRE `(?s)<p>:::note\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-note"><span class="bdm-title">NOTE</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::tip\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-tip"><span class="bdm-title">TIP</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::important\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-important"><span class="bdm-title">IMPORTANT</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::warning\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-warning"><span class="bdm-title">WARNING</span><p>$1</p></blockquote>` $c -}}
+{{- $c = replaceRE `(?s)<p>:::caution\s*\n(.*?)\s*:::</p>` `<blockquote class="admonition bdm-caution"><span class="bdm-title">CAUTION</span><p>$1</p></blockquote>` $c -}}
+{{- /* Spoilers: :spoiler[...] (body must not contain * so code-block examples are untouched) */ -}}
+{{- $c = replaceRE `:spoiler\[([^\]\*]*)\]` `<spoiler>$1</spoiler>` $c -}}
+{{- /* GitHub repo cards */ -}}
+{{- $c = partial "github-cards.html" (dict "html" $c "n" 1) -}}
+{{- return $c -}}

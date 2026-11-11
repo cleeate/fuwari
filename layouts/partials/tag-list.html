@@ -1,0 +1,13 @@
+{{/* getTagList from content-utils.ts — returns sorted [{name count lower}] */}}
+{{- $counts := dict -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- range .Params.tags -}}
+    {{- $n := index $counts . | default 0 -}}
+    {{- $counts = merge $counts (dict . (add $n 1)) -}}
+  {{- end -}}
+{{- end -}}
+{{- $list := slice -}}
+{{- range $name, $count := $counts -}}
+  {{- $list = $list | append (dict "name" $name "count" $count "lower" (lower $name)) -}}
+{{- end -}}
+{{- return sort $list "lower" -}}

@@ -3,17 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "check": "astro check",
-    "build": "astro build && pagefind --site dist",
-    "preview": "astro preview",
-    "astro": "astro",
-    "type-check": "tsc --noEmit --isolatedDeclarations",
-    "new-post": "node scripts/new-post.js",
-    "format": "biome format --write ./src",
-    "lint": "biome check --write ./src",
-    "preinstall": "npx only-allow pnpm"
+    "build": "node scripts/prepare-content.mjs && node scripts/build-css.mjs && hugo && rm -f public/posts/guide/cover.jpeg && pagefind --site public",
+    "dev": "node scripts/prepare-content.mjs && node scripts/build-css.mjs && hugo server",
+    "prepare-content": "node scripts/prepare-content.mjs",
+    "build-css": "node scripts/build-css.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -69,8 +62,17 @@
     "@types/markdown-it": "^14.1.2",
     "@types/mdast": "^4.0.4",
     "@types/sanitize-html": "^2.16.0",
+    "autoprefixer": "^10.6.2",
+    "hast-util-to-html": "^9.0.6",
+    "postcss": "^8.5.32",
     "postcss-import": "^16.1.1",
-    "postcss-nesting": "^13.0.2"
+    "postcss-nesting": "^13.0.2",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-smartypants": "^3.0.3",
+    "shiki": "^3.19.0",
+    "swup": "^4.10.0",
+    "unified": "^11.0.5"
   },
   "packageManager": "pnpm@9.14.4"
 }

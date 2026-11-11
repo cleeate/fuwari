@@ -1,0 +1,22 @@
+{{/* getCategoryList from content-utils.ts — returns sorted [{name count url lower}] */}}
+{{- $uncategorized := i18n "uncategorized" -}}
+{{- $counts := dict -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- $cat := .Params.category -}}
+  {{- if not $cat }}{{ $cat = $uncategorized }}{{ end -}}
+  {{- $cat = trim $cat " " -}}
+  {{- $n := index $counts $cat | default 0 -}}
+  {{- $counts = merge $counts (dict $cat (add $n 1)) -}}
+{{- end -}}
+{{- $archiveBase := "archive/" | relURL -}}
+{{- $list := slice -}}
+{{- range $name, $count := $counts -}}
+  {{- $url := "" -}}
+  {{- if or (eq (lower $name) (lower $uncategorized)) (eq $name "") -}}
+    {{- $url = printf "%s?uncategorized=true" $archiveBase -}}
+  {{- else -}}
+    {{- $url = printf "%s?category=%s" $archiveBase (replace (urlquery $name) "+" "%20") -}}
+  {{- end -}}
+  {{- $list = $list | append (dict "name" $name "count" $count "url" $url "lower" (lower $name)) -}}
+{{- end -}}
+{{- return sort $list "lower" -}}

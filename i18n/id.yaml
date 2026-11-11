@@ -1,0 +1,50 @@
+- id: home
+  translation: "Beranda"
+- id: about
+  translation: "Tentang"
+- id: archive
+  translation: "Arsip"
+- id: search
+  translation: "Cari"
+- id: tags
+  translation: "Tag"
+- id: categories
+  translation: "Kategori"
+- id: recentPosts
+  translation: "Postingan Terbaru"
+- id: comments
+  translation: "Komentar"
+- id: untitled
+  translation: "Tanpa Judul"
+- id: uncategorized
+  translation: "Tanpa Kategori"
+- id: noTags
+  translation: "Tanpa Tag"
+- id: wordCount
+  translation: "kata"
+- id: wordsCount
+  translation: "kata"
+- id: minuteCount
+  translation: "menit"
+- id: minutesCount
+  translation: "menit"
+- id: postCount
+  translation: "postingan"
+- id: postsCount
+  translation: "postingan"
+- id: themeColor
+  translation: "Warna Tema"
+- id: lightMode
+  translation: "Terang"
+- id: darkMode
+  translation: "Gelap"
+- id: systemMode
+  translation: "Sistem"
+- id: more
+  translation: "Lainnya"
+- id: author
+  translation: "Penulis"
+- id: publishedAt
+  translation: "Diterbitkan pada"
+- id: license
+  translation: "Lisensi"

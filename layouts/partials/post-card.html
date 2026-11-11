@@ -1,0 +1,51 @@
+{{/* PostCard.astro. Context: dict "page" (post Page) "style" "class" */}}
+{{- $page := .page -}}
+{{- $image := $page.Params.image | default "" -}}
+{{- $hasCover := and $image (ne $image "") -}}
+{{- $description := $page.Params.description | default "" -}}
+{{- $excerpt := partial "excerpt.html" $page -}}
+{{- /* words/minutes come from prepare-content.mjs (remark-reading-time, same
+as the original); fall back to Hugo's counts if absent. */ -}}
+{{- $words := $page.WordCount -}}
+{{- $minutes := int (math.Max 1 (math.Round (div (float $words) 200))) -}}
+{{- with $page.Params.words }}{{ $words = . }}{{ end -}}
+{{- with $page.Params.minutes }}{{ $minutes = . }}{{ end -}}
+<div class="card-base flex flex-col-reverse md:flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative{{ with .class }} {{ . }}{{ end }}" style="{{ .style | safeCSS }}; --coverWidth: 28%;">
+<div class="pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative{{ if $hasCover }} w-full md:w-[calc(100%_-_var(--coverWidth)_-_12px)]{{ else }} w-full md:w-[calc(100%_-_52px_-_12px)]{{ end }}" style="--coverWidth: 28%;">
+<a href="{{ $page.RelPermalink }}" class="transition group w-full block font-bold mb-3 text-3xl text-90 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] active:text-[var(--title-active)] dark:active:text-[var(--title-active)] before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)] before:absolute before:top-[35px] before:left-[18px] before:hidden md:before:block" style="--coverWidth: 28%;">
+{{ $page.Title }}
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "inline text-[2rem] text-[var(--primary)] md:hidden translate-y-0.5 absolute" "ctx" .ctx) }}
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "text-[var(--primary)] text-[2rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0" "ctx" .ctx) }}
+</a>
+<!-- metadata -->
+{{ partial "post-meta.html" (dict "ctx" .ctx "page" $page "hideTagsForMobile" true "hideUpdateDate" true "class" "mb-4") }}
+<!-- description -->
+<div class="transition text-75 mb-3.5 pr-4{{ if not $description }} line-clamp-2 md:line-clamp-1{{ end }}" style="--coverWidth: 28%;">
+{{ or $description $excerpt }}
+</div>
+<!-- word count and read time -->
+<div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition" style="--coverWidth: 28%;">
+<div style="--coverWidth: 28%;">
+{{ $words }} {{ i18n (cond (eq $words 1) "wordCount" "wordsCount") }}
+</div>
+<div style="--coverWidth: 28%;">|</div>
+<div style="--coverWidth: 28%;">
+{{ $minutes }} {{ i18n (cond (eq $minutes 1) "minuteCount" "minutesCount") }}
+</div>
+</div>
+</div>
+{{- if $hasCover }}
+<a href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}" class="group max-h-[20vh] md:max-h-none mx-4 mt-4 -mb-2 md:mb-0 md:mx-0 md:mt-0 md:w-[var(--coverWidth)] relative md:absolute md:top-3 md:bottom-3 md:right-3 rounded-xl overflow-hidden active:scale-95" style="--coverWidth: 28%;">
+<div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition" style="--coverWidth: 28%;"></div>
+<div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center " style="--coverWidth: 28%;">
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl" "ctx" .ctx) }}
+</div>
+{{ partial "image-wrapper.html" (dict "page" $page "src" $image "alt" "Cover Image of the Post" "class" "w-full h-full") }}
+</a>
+{{- else }}
+<a href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}" class="!hidden md:!flex btn-regular w-[3.25rem] absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)] hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95" style="--coverWidth: 28%;">
+{{ partial "icon.html" (dict "name" "material-symbols:chevron-right-rounded" "class" "transition text-[var(--primary)] text-4xl mx-auto" "ctx" .ctx) }}
+</a>
+{{- end }}
+</div>
+<div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden" style="--coverWidth: 28%;"></div>

@@ -1,0 +1,12 @@
+{{/* <title> text for the current page (Layout.astro's title prop, resolved per page). */}}
+{{- if .IsHome -}}
+  {{- printf "%s - %s" site.Params.title site.Params.subtitle -}}
+{{- else if eq .Section "posts" -}}
+  {{- printf "%s - %s" .Title site.Params.title -}}
+{{- else if eq .RelPermalink ("archive/" | relURL) -}}
+  {{- printf "%s - %s" (i18n "archive") site.Params.title -}}
+{{- else if eq .RelPermalink ("about/" | relURL) -}}
+  {{- printf "%s - %s" (i18n "about") site.Params.title -}}
+{{- else -}}
+  {{- printf "%s - %s" .Title site.Params.title -}}
+{{- end -}}

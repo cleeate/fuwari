@@ -1,0 +1,5 @@
+{{/* Main client bundle (src/js/main.js, built with Hugo js.Build / esbuild). */}}
+{{- $js := resources.Get "js/main.js" | js.Build (dict "params" (dict "bannerEnable" site.Params.bannerEnable "basePath" (strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path) "i18nPostCount" (i18n "postCount") "i18nPostsCount" (i18n "postsCount"))) | fingerprint -}}
+<script type="module" src="{{ $js.RelPermalink }}"></script>
+{{/* KaTeX is pre-rendered at build time (prepare-content.mjs), like the
+original's rehype-katex — no client-side KaTeX scripts. */}}

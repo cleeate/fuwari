@@ -1,0 +1,137 @@
+# Fuwari (Hugo port)
+# Translated from the original Astro site (saicaca/fuwari).
+# Site configuration mirrors src/config.ts; only the build/tooling layer changed.
+
+baseURL = "https://cleeate.github.io/fuwari/"
+languageCode = "en"
+title = "Fuwari"
+paginate = 8
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+# Content lives where the original repo keeps it.
+contentDir = ".hugo/content"
+staticDir = ["public", ".hugo/static"]
+assetDir = "src"
+
+# Fuwari has no taxonomy pages and no /posts/ index page.
+disableKinds = ["section", "taxonomy", "term"]
+
+[frontmatter]
+date = ["published", "date", "publishDate", "lastmod"]
+lastmod = ["updated", "lastmod", "date", "publishDate"]
+
+[outputs]
+home = ["HTML", "RSS", "SITEMAPINDEX", "ROBOTS"]
+page = ["HTML"]
+
+[outputFormats.RSS]
+baseName = "rss"
+
+# The original sitemap is split into sitemap-index.xml + sitemap-0.xml.
+# Hugo always generates its own sitemap.xml for the home page; the filename
+# setting renames it to sitemap-0.xml (a SITEMAP output format would ALSO
+# emit a sitemap.xml, so it is not used).
+[sitemap]
+filename = "sitemap-0.xml"
+
+[pagination]
+disableAliases = true
+
+[outputFormats.SITEMAPINDEX]
+baseName = "sitemap-index"
+isPlainText = false
+isHTML = false
+mediaType = "application/xml"
+noUgly = true
+
+[outputFormats.ROBOTS]
+baseName = "robots"
+isPlainText = true
+isHTML = false
+mediaType = "text/plain"
+noUgly = true
+
+[markup]
+  [markup.goldmark]
+  # Disabled: Goldmark renders `term\n: definition` as <dl>/<dt>/<dd>;
+  # remark (used by the original) has no definition lists and renders it
+  # as a plain paragraph.
+  [markup.goldmark.extensions]
+    definitionList = false
+    [markup.goldmark.parser.attribute]
+    block = false
+    [markup.goldmark.renderer]
+    unsafe = true
+    [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+    inline = [["$", "$"]]
+    block = [["$$", "$$"]]
+  # Disabled: Hugo's typographer converts `--` to an en dash and `---` to an
+  # em dash, while Astro's smartypants (used by the original) converts `--`
+  # to an em dash and leaves `---` alone. Smartypants is applied in
+  # scripts/prepare-content.mjs instead, on the markdown source.
+  [markup.goldmark.extensions.typographer]
+    disable = true
+  [markup.highlight]
+  style = "github-dark"
+  noClasses = true
+  lineNos = false
+  codeFences = true
+  [markup.tableOfContents]
+  startLevel = 1
+  endLevel = 6
+
+[params]
+# Mirrors siteConfig in src/config.ts
+title = "Fuwari"
+subtitle = "Demo Site"
+lang = "en"
+themeHue = 250
+themeColorFixed = false
+bannerEnable = false
+bannerSrc = "assets/images/demo-banner.png"
+bannerPosition = "center"
+bannerCreditEnable = false
+bannerCreditText = ""
+bannerCreditUrl = ""
+tocEnable = true
+tocDepth = 2
+# licenseConfig in src/config.ts
+licenseEnable = true
+licenseName = "CC BY-NC-SA 4.0"
+licenseUrl = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+# expressiveCodeConfig in src/config.ts
+codeTheme = "github-dark"
+
+[params.profile]
+avatar = "assets/images/demo-avatar.png"
+name = "Lorem Ipsum"
+bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+[[params.profile.links]]
+name = "Twitter"
+icon = "fa6-brands:twitter"
+url = "https://twitter.com"
+[[params.profile.links]]
+name = "Steam"
+icon = "fa6-brands:steam"
+url = "https://store.steampowered.com"
+[[params.profile.links]]
+name = "GitHub"
+icon = "fa6-brands:github"
+url = "https://github.com/saicaca/fuwari"
+
+[[params.navbarLinks]]
+preset = "home"
+url = "/"
+[[params.navbarLinks]]
+preset = "archive"
+url = "/archive/"
+[[params.navbarLinks]]
+preset = "about"
+url = "/about/"
+[[params.navbarLinks]]
+name = "GitHub"
+url = "https://github.com/saicaca/fuwari"
+external = true

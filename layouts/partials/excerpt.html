@@ -1,0 +1,4 @@
+{{/* remark-excerpt: the first top-level paragraph's text. Context: a Page. */}}
+{{- $content := replaceRE `(?s)<blockquote.*?</blockquote>` "" .Content -}}
+{{- $ps := findRE `<p>.*?</p>` $content 1 -}}
+{{- if $ps }}{{ index $ps 0 | plainify }}{{ end -}}

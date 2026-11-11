@@ -1,0 +1,50 @@
+- id: home
+  translation: "Trang chủ"
+- id: about
+  translation: "Giới thiệu"
+- id: archive
+  translation: "Kho bài"
+- id: search
+  translation: "Tìm kiếm"
+- id: tags
+  translation: "Thẻ"
+- id: categories
+  translation: "Danh mục"
+- id: recentPosts
+  translation: "Bài viết mới nhất"
+- id: comments
+  translation: "Bình luận"
+- id: untitled
+  translation: "Không tiêu đề"
+- id: uncategorized
+  translation: "Chưa phân loại"
+- id: noTags
+  translation: "Chưa có thẻ"
+- id: wordCount
+  translation: "từ"
+- id: wordsCount
+  translation: "từ"
+- id: minuteCount
+  translation: "phút đọc"
+- id: minutesCount
+  translation: "phút đọc"
+- id: postCount
+  translation: "bài viết"
+- id: postsCount
+  translation: "bài viết"
+- id: themeColor
+  translation: "Màu giao diện"
+- id: lightMode
+  translation: "Sáng"
+- id: darkMode
+  translation: "Tối"
+- id: systemMode
+  translation: "Hệ thống"
+- id: more
+  translation: "Thêm"
+- id: author
+  translation: "Tác giả"
+- id: publishedAt
+  translation: "Đăng vào lúc"
+- id: license
+  translation: "Giấy phép bản quyền"

@@ -1,0 +1,15 @@
+{{/* ButtonLink.astro. Context: dict "url" "badge" "label" "content" */}}
+<a href="{{ .url }}" aria-label="{{ .label }}">
+<button class="w-full h-10 rounded-lg bg-none hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition-all pl-2 hover:pl-3 text-neutral-700 hover:text-[var(--primary)] dark:text-neutral-300 dark:hover:text-[var(--primary)]">
+<div class="flex items-center justify-between relative mr-2">
+<div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  ">
+{{ .content }}
+</div>
+{{- if and .badge (ne .badge "") }}
+<div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold text-[var(--btn-content)] dark:text-[var(--deep-text)] bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)] flex items-center justify-center">
+{{ .badge }}
+</div>
+{{- end }}
+</div>
+</button>
+</a>

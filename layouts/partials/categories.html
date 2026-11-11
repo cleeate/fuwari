@@ -1,0 +1,9 @@
+{{/* Categories.astro. Context: dict "page" . "class" "style" */}}
+{{- $categories := partial "category-list.html" .page -}}
+{{- $isCollapsed := ge (len $categories) 5 -}}
+{{- $content := "" -}}
+{{- range $categories }}
+  {{- $btn := partial "button-link.html" (dict "url" .url "badge" (string .count) "label" (printf "View all posts in the %s category" (trim .name " ")) "content" (trim .name " ")) -}}
+  {{- $content = printf "%s%s" $content $btn -}}
+{{- end -}}
+{{ partial "widget-layout.html" (dict "page" .page "id" "categories" "name" (i18n "categories") "isCollapsed" $isCollapsed "collapsedHeight" "7.5rem" "class" .class "style" .style "content" $content) }}

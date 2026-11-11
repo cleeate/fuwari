@@ -1,0 +1,24 @@
+{{/* Markdown.astro — renders page content with Fuwari's markdown transforms.
+Context: dict "page" (Page) "class" */}}
+{{- $content := .page.Content -}}
+{{- /* Footnote references: Goldmark's form -> remark-gfm's form (dist). */ -}}
+{{- $content = partial "footnote-refs.html" $content -}}
+{{- /* The footnotes block must sit OUTSIDE all content sections (dist), so
+extract it before sectionizing and re-append it after. */ -}}
+{{- $foot := findRE `(?s)<div class="footnotes" role="doc-endnotes">.*?</div>` $content 1 -}}
+{{- $footBlock := "" -}}
+{{- if $foot -}}
+  {{- $footBlock = index $foot 0 -}}
+  {{- $content = replace $content $footBlock "" -}}
+{{- end -}}
+{{- $content = partial "sectionize.html" $content -}}
+{{- $content = partial "content-transforms.html" $content -}}
+{{- if $footBlock -}}
+  {{- $content = printf "%s%s" $content (partial "footnote-block.html" $footBlock) -}}
+{{- end -}}
+<div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md {{ .class }}">
+{{ $content | safeHTML }}
+</div>
+{{- /* .Fragments is unreliable in this Hugo version; hand the TOC the
+headings extracted from the final HTML. */ -}}
+{{- .page.Scratch.Set "toc-headings" (partial "toc-headings.html" $content) -}}

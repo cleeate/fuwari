@@ -1,0 +1,58 @@
+{{/* PostMeta.astro. Context: dict "page" (post Page) "hideTagsForMobile" "hideUpdateDate" "class" */}}
+{{- $page := .page -}}
+{{- $published := $page.Date -}}
+{{- $updated := $page.Lastmod -}}
+{{- $tags := $page.Params.tags | default slice -}}
+{{- $category := $page.Params.category -}}
+<div class="flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2{{ with .class }} {{ . }}{{ end }}">
+<!-- publish date -->
+<div class="flex items-center">
+<div class="meta-icon">
+{{ partial "icon.html" (dict "name" "material-symbols:calendar-today-outline-rounded" "class" "text-xl" "ctx" .ctx) }}
+</div>
+<span class="text-50 text-sm font-medium">{{ $published.UTC.Format "2006-01-02" }}</span>
+</div>
+<!-- update date -->
+{{- if and (not .hideUpdateDate) (ne $updated $published) }}
+<div class="flex items-center">
+<div class="meta-icon">
+{{ partial "icon.html" (dict "name" "material-symbols:edit-calendar-outline-rounded" "class" "text-xl" "ctx" .ctx) }}
+</div>
+<span class="text-50 text-sm font-medium">{{ $updated.UTC.Format "2006-01-02" }}</span>
+</div>
+{{- end }}
+<!-- categories -->
+<div class="flex items-center">
+<div class="meta-icon">
+{{ partial "icon.html" (dict "name" "material-symbols:book-2-outline-rounded" "class" "text-xl" "ctx" .ctx) }}
+</div>
+<div class="flex flex-row flex-nowrap items-center">
+{{- $archiveBase := "archive/" | relURL -}}
+{{- $catUrl := printf "%s?uncategorized=true" $archiveBase -}}
+{{- if and $category (ne (trim $category " ") "") (ne (lower (trim $category " ")) (lower (i18n "uncategorized"))) -}}
+{{- $catUrl = printf "%s?category=%s" $archiveBase (replace (urlquery (trim $category " ")) "+" "%20") -}}
+{{- end }}
+<a href="{{ $catUrl }}" aria-label="View all posts in the {{ $category }} category" class="link-lg transition text-50 text-sm font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+{{ or $category (i18n "uncategorized") }}
+</a>
+</div>
+</div>
+<!-- tags -->
+<div class="{{ if .hideTagsForMobile }}items-center hidden md:flex{{ else }}items-center flex{{ end }}">
+<div class="meta-icon">
+{{ partial "icon.html" (dict "name" "material-symbols:tag-rounded" "class" "text-xl" "ctx" .ctx) }}
+</div>
+<div class="flex flex-row flex-nowrap items-center">
+{{- if and $tags (gt (len $tags) 0) }}
+{{- range $i, $tag := $tags }}
+<div class="{{ if eq $i 0 }}hidden {{ end }}mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+<a href="{{ printf "%s?tag=%s" $archiveBase (replace (urlquery (trim $tag " ")) "+" "%20") }}" aria-label="View all posts with the {{ trim $tag " " }} tag" class="link-lg transition text-50 text-sm font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+{{ trim $tag " " }}
+</a>
+{{- end }}
+{{- else }}
+<div class="transition text-50 text-sm font-medium">{{ i18n "noTags" }}</div>
+{{- end }}
+</div>
+</div>
+</div>

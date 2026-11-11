@@ -1,0 +1,8 @@
+{{/* Meta description for the current page (Layout.astro's description prop). */}}
+{{- if eq .Section "posts" -}}
+  {{- or .Params.description (printf "%s - %s" .Title site.Params.title) -}}
+{{- else if eq .RelPermalink ("about/" | relURL) -}}
+  {{- i18n "about" -}}
+{{- else -}}
+  {{- partial "page-title.html" . -}}
+{{- end -}}

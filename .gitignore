@@ -29,3 +29,11 @@ yarn.lock
 # ide
 .idea
 *.iml
+
+# hugo (port)
+# NOTE: public/ is Hugo's output dir, but public/favicon/* are tracked
+# source files (Hugo staticDir) — gitignore does not affect tracked files.
+/public
+/.hugo
+.hugo_build.lock
+/resources

@@ -1,0 +1,18 @@
+{{/* Replaces ::github{repo="owner/repo"} directives with repo cards, one at a time.
+Context: dict "html" "n" (card counter). Goldmark escapes the quotes in the
+paragraph text as &quot;, so the pattern matches that form. */}}
+{{- $html := .html -}}
+{{- $n := .n -}}
+{{- $m := findRE `<p>::github\{repo=&quot;([^&]+)&quot;\}</p>` $html 1 -}}
+{{- if not $m -}}
+  {{- return $html -}}
+{{- end -}}
+{{- $tag := index $m 0 -}}
+{{- $repo := index (findRE `repo=&quot;([^&]+)&quot;` $tag 1) 0 | replaceRE `repo=&quot;([^&]+)&quot;` "$1" -}}
+{{- $id := printf "GC%06d" $n -}}
+{{- $card := partial "github-card.html" (dict "repo" $repo "id" $id) -}}
+{{- $parts := split $html $tag -}}
+{{- $before := index $parts 0 -}}
+{{- /* split/join are inverse; substr+len would mix byte and rune offsets */ -}}
+{{- $after := delimit (after 1 $parts) $tag -}}
+{{- return partial "github-cards.html" (dict "html" (printf "%s%s%s" $before $card $after) "n" (add $n 1)) -}}

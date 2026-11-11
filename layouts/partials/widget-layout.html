@@ -1,0 +1,17 @@
+{{/* WidgetLayout.astro. Context: dict "id" "name" "isCollapsed" "collapsedHeight" "class" "style" "content" (HTML) */}}
+{{- $id := .id -}}
+<widget-layout data-id="{{ $id }}" data-is-collapsed="{{ .isCollapsed }}" class="pb-4 card-base {{ .class }}" style="{{ with .style }}{{ . }}; {{ end }}--collapsedHeight: {{ .collapsedHeight }};">
+<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)] before:absolute before:left-[-16px] before:top-[5.5px]" style="--collapsedHeight: {{ .collapsedHeight }};">{{ .name }}</div>
+<div id="{{ $id }}" class="collapse-wrapper px-4 overflow-hidden{{ if .isCollapsed }} collapsed{{ end }}" style="--collapsedHeight: {{ .collapsedHeight }};">
+{{ .content | safeHTML }}
+</div>
+{{- if .isCollapsed }}
+<div class="expand-btn px-4 -mb-2">
+<button class="btn-plain rounded-lg w-full h-9">
+<div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2">
+{{ partial "icon.html" (dict "name" "material-symbols:more-horiz" "class" "text-[1.75rem]" "ctx" .page) }} {{ i18n "more" }}
+</div>
+</button>
+</div>
+{{- end }}
+</widget-layout>

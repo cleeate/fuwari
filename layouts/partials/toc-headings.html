@@ -1,0 +1,23 @@
+{{/* Extract headings from rendered HTML for the TOC (the original's
+rehype-slug ids + autolink anchors are already in the HTML).
+Returns a slice of dicts "level" "id" "title"; the title keeps the trailing
+"#" from the anchor icon, like .Fragments.Headings does — toc.html strips it. */}}
+{{- $list := slice -}}
+{{- range findRE `<h[1-6][^>]*id="[^"]+">.*?</h[1-6]>` . -}}
+  {{- $level := int (index (findRE `[1-6]` . 1) 0) -}}
+  {{- $id := replaceRE `^<h[1-6][^>]*id="([^"]+)"[^>]*>.*$` "$1" . -}}
+  {{- $inner := replaceRE `^<h[1-6][^>]*>(.*)</h[1-6]>$` "$1" . -}}
+  {{- /* The heading HTML carries Goldmark's entity escaping (&amp; for &);
+       decode it so toc.html's {{ }} escaping produces the same text once,
+       not a double-escaped &amp;amp;. &amp; is decoded last so &amp;lt;
+       survives as &lt;. */ -}}
+  {{- $title := replaceRE `<[^>]+>` "" $inner -}}
+  {{- $title = replaceRE `&lt;` "<" $title -}}
+  {{- $title = replaceRE `&gt;` ">" $title -}}
+  {{- $title = replaceRE `&quot;` `"` $title -}}
+  {{- $title = replaceRE `&#39;` "'" $title -}}
+  {{- $title = replaceRE `&amp;` "&" $title -}}
+  {{- $title = trim $title " " -}}
+  {{- $list = $list | append (dict "level" $level "id" $id "title" $title) -}}
+{{- end -}}
+{{- return $list -}}

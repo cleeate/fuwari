@@ -1,0 +1,50 @@
+- id: home
+  translation: "홈"
+- id: about
+  translation: "소개"
+- id: archive
+  translation: "아카이브"
+- id: search
+  translation: "검색"
+- id: tags
+  translation: "태그"
+- id: categories
+  translation: "카테고리"
+- id: recentPosts
+  translation: "최근 게시물"
+- id: comments
+  translation: "댓글"
+- id: untitled
+  translation: "제목 없음"
+- id: uncategorized
+  translation: "분류되지 않음"
+- id: noTags
+  translation: "태그 없음"
+- id: wordCount
+  translation: "단어"
+- id: wordsCount
+  translation: "단어"
+- id: minuteCount
+  translation: "분"
+- id: minutesCount
+  translation: "분"
+- id: postCount
+  translation: "게시물"
+- id: postsCount
+  translation: "게시물"
+- id: themeColor
+  translation: "테마 색상"
+- id: lightMode
+  translation: "밝은 모드"
+- id: darkMode
+  translation: "어두운 모드"
+- id: systemMode
+  translation: "시스템 모드"
+- id: more
+  translation: "더 보기"
+- id: author
+  translation: "저자"
+- id: publishedAt
+  translation: "게시일"
+- id: license
+  translation: "라이선스"

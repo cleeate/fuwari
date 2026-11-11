@@ -1,0 +1,151 @@
+{{/* Layout.astro + MainGridLayout.astro */}}
+{{- $site := site -}}
+{{- $params := site.Params -}}
+{{- $isHome := .IsHome -}}
+{{- $bannerEnabled := $params.bannerEnable -}}
+{{- $pageTitle := partial "page-title.html" . -}}
+{{- $description := partial "page-description.html" . -}}
+{{- $ogType := partial "og-type.html" . -}}
+{{- $lang := or .Params.lang $params.lang -}}
+{{- $siteLang := replace $lang "_" "-" -}}
+{{- $bannerOffset := "15vh" -}}
+{{- if eq $params.bannerPosition "top" }}{{ $bannerOffset = "30vh" }}{{ end -}}
+{{- if eq $params.bannerPosition "bottom" }}{{ $bannerOffset = "0" }}{{ end -}}
+{{- $mainPanelTop := "5.5rem" -}}
+{{- if $bannerEnabled }}{{ $mainPanelTop = "calc(35vh - 3.5rem)" }}{{ end -}}
+{{- $favicon := $params.favicon -}}
+{{- $favicons := slice
+  (dict "src" "/favicon/favicon-light-32.png" "theme" "light" "sizes" "32x32")
+  (dict "src" "/favicon/favicon-light-128.png" "theme" "light" "sizes" "128x128")
+  (dict "src" "/favicon/favicon-light-180.png" "theme" "light" "sizes" "180x180")
+  (dict "src" "/favicon/favicon-light-192.png" "theme" "light" "sizes" "192x192")
+  (dict "src" "/favicon/favicon-dark-32.png" "theme" "dark" "sizes" "32x32")
+  (dict "src" "/favicon/favicon-dark-128.png" "theme" "dark" "sizes" "128x128")
+  (dict "src" "/favicon/favicon-dark-180.png" "theme" "dark" "sizes" "180x180")
+  (dict "src" "/favicon/favicon-dark-192.png" "theme" "dark" "sizes" "192x192")
+-}}
+{{- if $favicon }}{{ $favicons = $favicon }}{{ end -}}
+<!DOCTYPE html>
+<html lang="{{ $siteLang }}" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize style="--bannerOffset: {{ $bannerOffset }};--banner-height-home: 65vh;--banner-height: 35vh;--configHue: {{ $params.themeHue }};--page-width: 75rem;">
+<head>
+<title>{{ $pageTitle }}</title>
+<meta charset="UTF-8" />
+<meta name="description" content="{{ $description }}" />
+<meta name="author" content="{{ $params.profile.name }}" />
+<meta property="og:site_name" content="{{ $params.title }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:title" content="{{ $pageTitle }}" />
+<meta property="og:description" content="{{ $description }}" />
+<meta property="og:type" content="{{ $ogType }}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="{{ .Permalink }}" />
+<meta name="twitter:title" content="{{ $pageTitle }}" />
+<meta name="twitter:description" content="{{ $description }}" />
+<meta name="viewport" content="width=device-width" />
+<meta name="generator" content="Hugo {{ hugo.Version }}" />
+{{- range $favicons }}
+<link rel="icon" href="{{ (strings.TrimPrefix "/" .src) | relURL }}" sizes="{{ .sizes }}"{{ with .theme }} media="(prefers-color-scheme: {{ . }})"{{ end }} />
+{{- end }}
+<!-- Set the theme before the page is rendered to avoid a flash -->
+<script>
+(function(){const DEFAULT_THEME = "auto";
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
+const AUTO_MODE = "auto";
+const BANNER_HEIGHT_EXTEND = 30;
+const PAGE_WIDTH = 75;
+const configHue = {{ $params.themeHue }};
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+			switch (theme) {
+				case LIGHT_MODE:
+					document.documentElement.classList.remove('dark');
+					break
+				case DARK_MODE:
+					document.documentElement.classList.add('dark');
+					break
+				case AUTO_MODE:
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
+			// Load the hue from local storage
+			const hue = localStorage.getItem('hue') || configHue;
+			document.documentElement.style.setProperty('--hue', hue);
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();
+</script>
+{{ block "head" . }}{{ end }}
+<link rel="alternate" type="application/rss+xml" title="{{ $params.profile.name }}" href="{{ "rss.xml" | absURL }}" />
+{{- partial "head-css.html" . -}}
+</head>
+<body class=" min-h-screen transition {{ if $isHome }}lg:is-home{{ end }}{{ if $bannerEnabled }} enable-banner{{ end }}" data-overlayscrollbars-initialize style="--bannerOffset: {{ $bannerOffset }};--banner-height-home: 65vh;--banner-height: 35vh;--configHue: {{ $params.themeHue }};--page-width: 75rem;">
+<div id="config-carrier" data-hue="{{ $params.themeHue }}"></div>
+<!-- Navbar: without a banner the row itself pins to the top so the navbar
+     stays sticky; with a banner the tall row does that job instead -->
+<div id="top-row" class="z-50 pointer-events-none {{ if $bannerEnabled }}relative{{ else }}sticky top-0{{ end }} transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto">
+<div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
+{{ partial "navbar.html" . }}
+</div>
+</div>
+<!-- Banner -->
+{{- if $bannerEnabled }}
+<div id="banner-wrapper" class="absolute z-10 w-full transition duration-700 overflow-hidden" style="top: -30vh">
+{{ partial "image-wrapper.html" (dict "id" "banner" "src" $params.bannerSrc "alt" "Banner image of the blog" "position" $params.bannerPosition "class" "object-cover h-full transition duration-700 opacity-0 scale-105") }}
+</div>
+{{- end }}
+<!-- Main content -->
+<div class="absolute w-full z-30 pointer-events-none" style="top: {{ $mainPanelTop | safeCSS }}">
+<div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
+<div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto] mx-auto gap-4 px-0 md:px-4">
+{{- if and $bannerEnabled $params.bannerCreditEnable }}
+<a href="{{ $params.bannerCreditUrl }}" id="banner-credit" target="_blank" rel="noopener" aria-label="Visit image source" class="group onload-animation transition-all absolute flex justify-center items-center rounded-full px-3 right-4 -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9{{ if $params.bannerCreditUrl }} hover:pr-9 active:bg-black/80{{ end }}">
+{{ partial "icon.html" (dict "name" "material-symbols:copyright-outline-rounded" "class" "text-white/75 text-[1.25rem] mr-1" "ctx" .) }}
+<div class="text-white/75 text-xs">{{ $params.bannerCreditText }}</div>
+{{ if $params.bannerCreditUrl }}{{ partial "icon.html" (dict "name" "fa6-solid:arrow-up-right-from-square" "class" "transition absolute text-[oklch(0.75_0.14_var(--hue))] right-4 text-[0.75rem] opacity-0 group-hover:opacity-100" "ctx" .) }}{{ end }}
+</a>
+{{- end }}
+{{ partial "sidebar.html" . }}
+<main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
+<div id="content-wrapper" class="onload-animation">
+{{ block "main" . }}{{ end }}
+<div class="footer col-span-2 onload-animation hidden lg:block">
+{{ partial "footer.html" . }}
+</div>
+</div>
+</main>
+<div class="footer col-span-2 onload-animation block lg:hidden">
+{{ partial "footer.html" . }}
+</div>
+</div>
+{{ partial "back-to-top.html" . }}
+</div>
+</div>
+<!-- The things that should be under the banner, only the TOC for now -->
+<div class="absolute w-full z-0 hidden 2xl:block">
+<div class="relative max-w-[var(--page-width)] mx-auto">
+{{- if $params.tocEnable }}
+<div id="toc-wrapper" class="hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center{{ if $bannerEnabled }} toc-hide{{ end }}">
+<div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar">
+<div id="toc" class="w-full h-full transition-swup-fade ">
+<div class="h-8 w-full"></div>
+{{ partial "toc.html" . }}
+<div class="h-8 w-full"></div>
+</div>
+</div>
+</div>
+{{- else }}
+<div id="toc"></div>
+{{- end }}
+</div>
+</div>
+<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
+<div id="page-height-extend" class="hidden h-[300vh]" style="--bannerOffset: {{ $bannerOffset }};--banner-height-home: 65vh;--banner-height: 35vh;--configHue: {{ $params.themeHue }};--page-width: 75rem;"></div>
+{{- partial "body-js.html" . -}}
+</body>
+</html>

@@ -1,0 +1,3 @@
+{{/* remark-sectionize: wrap each top-level heading and its following content in <section>.
+Input: HTML string. Returns the sectionized HTML string. */}}
+{{- return partial "sectionize-recurse.html" (dict "rest" . "out" "" "stack" slice) -}}

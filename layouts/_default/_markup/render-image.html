@@ -1,0 +1,2 @@
+{{/* Plain images in post bodies (Astro does not process bare <img> in markdown bodies) */}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }}>

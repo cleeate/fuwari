@@ -1,0 +1,50 @@
+- id: home
+  translation: "Anasayfa"
+- id: about
+  translation: "Hakkında"
+- id: archive
+  translation: "Arşiv"
+- id: search
+  translation: "Ara"
+- id: tags
+  translation: "Taglar"
+- id: categories
+  translation: "Katagoriler"
+- id: recentPosts
+  translation: "Son Paylaşımlar"
+- id: comments
+  translation: "Yorumlar"
+- id: untitled
+  translation: "Başlıksız"
+- id: uncategorized
+  translation: "Katagorisiz"
+- id: noTags
+  translation: "Tag Bulunamadı"
+- id: wordCount
+  translation: "kelime"
+- id: wordsCount
+  translation: "kelime"
+- id: minuteCount
+  translation: "dakika"
+- id: minutesCount
+  translation: "dakika"
+- id: postCount
+  translation: "gönderi"
+- id: postsCount
+  translation: "gönderiler"
+- id: themeColor
+  translation: "Tema Rengi"
+- id: lightMode
+  translation: "Aydınlık"
+- id: darkMode
+  translation: "Koyu"
+- id: systemMode
+  translation: "Sistem"
+- id: more
+  translation: "Daha Fazla"
+- id: author
+  translation: "Yazar"
+- id: publishedAt
+  translation: "Yayınlanma:"
+- id: license
+  translation: "Lisans"
