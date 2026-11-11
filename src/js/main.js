@@ -662,7 +662,12 @@ function renderSearchResults() {
 	});
 	for (const item of searchResult) {
 		const a = document.createElement("a");
-		a.href = `${BASE_PATH}${item.url}`;
+		// Pagefind's item.url comes from the page's canonical URL, so it
+		// already contains the base path on a sub-path deployment
+		// (e.g. /fuwari/posts/...). Only prepend it when it is missing.
+		a.href = item.url.startsWith(BASE_PATH)
+			? item.url
+			: `${BASE_PATH}${item.url}`;
 		a.dataset.searchResult = "";
 		a.className =
 			"transition first-of-type:mt-2 lg:first-of-type:mt-0 group block rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]";
