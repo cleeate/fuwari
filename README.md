@@ -1,7 +1,6 @@
-# 🍥Fuwari  
+# 🍥Fuwari
 ![Node.js >= 20](https://img.shields.io/badge/node.js-%3E%3D20-brightgreen) 
 ![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue) 
-[![DeepWiki](https://img.shields.io/badge/DeepWiki-cleeate%2Ffuwari-blue.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAyCAYAAAAnWDnqAAAAAXNSR0IArs4c6QAAA05JREFUaEPtmUtyEzEQhtWTQyQLHNak2AB7ZnyXZMEjXMGeK/AIi+QuHrMnbChYY7MIh8g01fJoopFb0uhhEqqcbWTp06/uv1saEDv4O3n3dV60RfP947Mm9/SQc0ICFQgzfc4CYZoTPAswgSJCCUJUnAAoRHOAUOcATwbmVLWdGoH//PB8mnKqScAhsD0kYP3j/Yt5LPQe2KvcXmGvRHcDnpxfL2zOYJ1mFwrryWTz0advv1Ut4CJgf5uhDuDj5eUcAUoahrdY/56ebRWeraTjMt/00Sh3UDtjgHtQNHwcRGOC98BJEAEymycmYcWwOprTgcB6VZ5JK5TAJ+fXGLBm3FDAmn6oPPjR4rKCAoJCal2eAiQp2x0vxTPB3ALO2CRkwmDy5WohzBDwSEFKRwPbknEggCPB/imwrycgxX2NzoMCHhPkDwqYMr9tRcP5qNrMZHkVnOjRMWwLCcr8ohBVb1OMjxLwGCvjTikrsBOiA6fNyCrm8V1rP93iVPpwaE+gO0SsWmPiXB+jikdf6SizrT5qKasx5j8ABbHpFTx+vFXp9EnYQmLx02h1QTTrl6eDqxLnGjporxl3NL3agEvXdT0WmEost648sQOYAeJS9Q7bfUVoMGnjo4AZdUMQku50McDcMWcBPvr0SzbTAFDfvJqwLzgxwATnCgnp4wDl6Aa+Ax283gghmj+vj7feE2KBBRMW3FzOpLOADl0Isb5587h/U4gGvkt5v60Z1VLG8BhYjbzRwyQZemwAd6cCR5/XFWLYZRIMpX39AR0tjaGGiGzLVyhse5C9RKC6ai42ppWPKiBagOvaYk8lO7DajerabOZP46Lby5wKjw1HCRx7p9sVMOWGzb/vA1hwiWc6jm3MvQDTogQkiqIhJV0nBQBTU+3okKCFDy9WwferkHjtxib7t3xIUQtHxnIwtx4mpg26/HfwVNVDb4oI9RHmx5WGelRVlrtiw43zboCLaxv46AZeB3IlTkwouebTr1y2NjSpHz68WNFjHvupy3q8TFn3Hos2IAk4Ju5dCo8B3wP7VPr/FGaKiG+T+v+TQqIrOqMTL1VdWV1DdmcbO8KXBz6esmYWYKPwDL5b5FA1a0hwapHiom0r/cKaoqr+27/XcrS5UwSMbQAAAABJRU5ErkJggg==)](https://deepwiki.com/cleeate/fuwari)
 
 > **Hugo port.** This fork is [Fuwari](https://github.com/saicaca/fuwari) by [saicaca](https://github.com/saicaca), ported from Astro to [Hugo](https://gohugo.io/) — same layout, same demo content, same behavior. The Astro source was removed; this repo is Hugo-only. The Hugo version lives in `layouts/`, `hugo.toml` and `src/js/main.js` (see `scripts/` for the build helpers).
 >
@@ -9,18 +8,11 @@
 
 A static blog template, ported from Astro to [Hugo](https://gohugo.io/).
 
-[**🖥️ Live Demo (GitHub Pages)**](https://cleeate.github.io/fuwari/)
-
 ![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
 
 🌏 README in
 [**中文**](https://github.com/cleeate/fuwari/blob/main/docs/README.zh-CN.md) /
-[**日本語**](https://github.com/cleeate/fuwari/blob/main/docs/README.ja.md) /
-[**한국어**](https://github.com/cleeate/fuwari/blob/main/docs/README.ko.md) /
-[**Español**](https://github.com/cleeate/fuwari/blob/main/docs/README.es.md) /
-[**ไทย**](https://github.com/cleeate/fuwari/blob/main/docs/README.th.md) /
-[**Tiếng Việt**](https://github.com/cleeate/fuwari/blob/main/docs/README.vi.md) /
-[**Bahasa Indonesia**](https://github.com/cleeate/fuwari/blob/main/docs/README.id.md) (Provided by the community and may not always be up-to-date)
+**English**
 
 ## ✨ Features
 
@@ -30,7 +22,7 @@ A static blog template, ported from Astro to [Hugo](https://gohugo.io/).
 - [x] Customizable theme colors & banner
 - [x] Responsive design
 - [x] Search functionality with [Pagefind](https://pagefind.app/)
-- [x] [Markdown extended features](https://github.com/cleeate/fuwari?tab=readme-ov-file#-markdown-extended-syntax)
+- [x] [Markdown extended features](#-markdown-extended-syntax)
 - [x] Table of contents
 - [x] RSS feed
 
@@ -38,19 +30,16 @@ A static blog template, ported from Astro to [Hugo](https://gohugo.io/).
 
 1. Create your blog repository:
     - [Generate a new repository](https://github.com/cleeate/fuwari/generate) from this template or fork this repository.
-    - Or run one of the following commands:
-       ```sh
-       npm create fuwari@latest
-       yarn create fuwari
-       pnpm create fuwari@latest
-       bun create fuwari@latest
-       deno run -A npm:create-fuwari@latest
-       ```
-2. To edit your blog locally, clone your repository, run `pnpm install` to install dependencies.
-    - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Vercel, Netlify, GitHub Pages, etc. following [the guides](https://gohugo.io/hosting-and-deployment/). You need to edit the site configuration in `astro.config.mjs` before deployment.
+2. Clone your repository and install dependencies:
+    ```sh
+    pnpm install
+    ```
+    - Install [pnpm](https://pnpm.io) with `npm install -g pnpm` if you haven't.
+3. Edit **`hugo.toml`** to customize your blog: site `title`, `baseURL`, `[params.profile]` (name / avatar / bio / links), `[params.navbarLinks]` (nav items and dropdown children), theme hue, etc.
+4. Create a post with `pnpm new-post <filename>`, then edit the file under **`src/content/posts/`**.
+5. Deploy to Vercel, Netlify, GitHub Pages, etc. following [the Hugo guides](https://gohugo.io/hosting-and-deployment/). Build with `pnpm build` (outputs to **`public/`**). **Set `baseURL` in `hugo.toml` to your real domain before deploying.**
+
+> Note: Hugo does not read `src/content/` directly. `scripts/prepare-content.mjs` copies it to `.hugo/content` (dropping `config.ts` and pre-rendering code blocks) as part of `pnpm dev` / `pnpm build`. To run `hugo` by hand, run `pnpm prepare-content` first.
 
 ## 📝 Frontmatter of Posts
 
@@ -63,9 +52,11 @@ image: ./cover.jpg
 tags: [Foo, Bar]
 category: Front-end
 draft: false
-lang: jp      # Set only if the post's language differs from the site's language in `config.ts`
+lang: jp      # Set only if the post's language differs from the site's language in hugo.toml
 ---
 ```
+
+`published` maps to Hugo's `date` and `updated` to `lastmod`, per `[frontmatter]` in `hugo.toml`.
 
 ## 🧩 Markdown Extended Syntax
 
@@ -79,15 +70,16 @@ In addition to Hugo's built-in support for [GitHub Flavored Markdown](https://gi
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                    | Action                                              |
-|:---------------------------|:----------------------------------------------------|
-| `pnpm install`             | Installs dependencies                               |
-| `pnpm dev`                 | Starts local dev server at `localhost:4321`         |
-| `pnpm build`               | Build your production site to `./dist/`             |
-| `pnpm preview`             | Preview your build locally, before deploying        |
-| `pnpm check`               | Run checks for errors in your code                  |
-| `pnpm format`              | Format your code using Biome                        |
-| `pnpm new-post <filename>` | Create a new post                                   |
+| Command                        | Action                                                              |
+|:-------------------------------|:--------------------------------------------------------------------|
+| `pnpm install`                 | Installs dependencies                                               |
+| `pnpm dev`                     | Starts the local dev server at `localhost:1313`                     |
+| `pnpm build`                   | Builds the production site to `./public/` (Hugo + Pagefind)         |
+| `pnpm new-post <filename>`     | Creates a new post under `src/content/posts/`                       |
+| `pnpm prepare-content`         | Copies `src/content` → `.hugo/content` (run before a bare `hugo`)    |
+| `pnpm build-css`               | Builds the Tailwind CSS bundle                                      |
+
+> This is a Hugo project: there is no `astro check`, `pnpm preview`, or `./dist/` output. The dev server is Hugo's (`1313`), the build output is `public/`, and JS/CSS are bundled by `scripts/` (Node 20+, pnpm 9+).
 
 ## ✏️ Contributing
 
@@ -96,4 +88,3 @@ Check out the [Contributing Guide](https://github.com/cleeate/fuwari/blob/main/C
 ## 📄 License
 
 This project is licensed under the MIT License.
-

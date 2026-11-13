@@ -6,7 +6,8 @@
     "build": "node scripts/prepare-content.mjs && node scripts/build-css.mjs && hugo && rm -f public/posts/guide/cover.jpeg && pagefind --site public",
     "dev": "node scripts/prepare-content.mjs && node scripts/build-css.mjs && hugo server",
     "prepare-content": "node scripts/prepare-content.mjs",
-    "build-css": "node scripts/build-css.mjs"
+    "build-css": "node scripts/build-css.mjs",
+    "new-post": "node scripts/new-post.js"
   },
   "dependencies": {
     "@expressive-code/core": "^0.41.4",

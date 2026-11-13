@@ -10,7 +10,7 @@ draft: false
 
 > Cover image source: [Source](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/208fc754-890d-4adb-9753-2c963332675d/width=2048/01651-1456859105-(colour_1.5),girl,_Blue,yellow,green,cyan,purple,red,pink,_best,8k,UHD,masterpiece,male%20focus,%201boy,gloves,%20ponytail,%20long%20hair,.jpeg)
 
-This blog template is built with [Astro](https://astro.build/). For the things that are not mentioned in this guide, you may find the answers in the [Astro Docs](https://docs.astro.build/).
+This blog template is built with [Hugo](https://gohugo.io/). For the things that are not mentioned in this guide, you may find the answers in the [Hugo Docs](https://gohugo.io/documentation/).
 
 ## Front-matter of Posts
 
@@ -18,7 +18,7 @@ This blog template is built with [Astro](https://astro.build/). For the things t
 ---
 title: My First Blog Post
 published: 2023-09-09
-description: This is the first post of my new Astro blog.
+description: This is the first post of my new Hugo blog.
 image: ./cover.jpg
 tags: [Foo, Bar]
 category: Front-end

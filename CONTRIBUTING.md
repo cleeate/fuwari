@@ -16,6 +16,5 @@ Please use the [Conventional Commits](https://www.conventionalcommits.org/) form
 Before submitting code, please run the appropriate commands to check for errors and format your code.
 
 ```bash
-pnpm check
-pnpm format
+pnpm build
 ```
