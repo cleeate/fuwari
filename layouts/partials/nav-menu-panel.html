@@ -4,8 +4,29 @@
 <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2">
 {{- range $links }}
 {{- $name := or .name (i18n .preset) }}
+{{- if .children }}
+<div class="py-1">
+<div class="flex items-center py-2 pl-3 pr-1 font-bold text-black/75 dark:text-white/75">
+{{- if .icon }}{{ partial "icon.html" (dict "name" .icon "class" "text-[1.1rem] mr-1.5" "ctx" $page) }}{{ end }}
+{{ $name }}
+</div>
+{{- range .children }}
+{{- $cname := or .name (i18n .preset) }}
+<a href="{{ if .external }}{{ .url }}{{ else }}{{ (strings.TrimPrefix "/" .url) | relURL }}{{ end }}" class="group flex justify-between items-center py-2 pl-6 pr-1 rounded-lg gap-8 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition"{{ if .external }} target="_blank"{{ end }}>
+<div class="flex items-center transition text-black/60 dark:text-white/60 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+{{- if .icon }}{{ partial "icon.html" (dict "name" .icon "class" "text-[1.25rem] mr-2" "ctx" $page) }}{{ end }}
+{{ $cname }}
+</div>
+{{- if .external }}
+{{ partial "icon.html" (dict "name" "fa6-solid:arrow-up-right-from-square" "class" "transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1" "ctx" $page) }}
+{{- end }}
+</a>
+{{- end }}
+</div>
+{{- else }}
 <a href="{{ if .external }}{{ .url }}{{ else }}{{ (strings.TrimPrefix "/" .url) | relURL }}{{ end }}" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition"{{ if .external }} target="_blank"{{ end }}>
-<div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+<div class="flex items-center transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+{{- if .icon }}{{ partial "icon.html" (dict "name" .icon "class" "text-[1.1rem] mr-1.5" "ctx" $page) }}{{ end }}
 {{ $name }}
 </div>
 {{- if not .external }}
@@ -14,5 +35,6 @@
 {{ partial "icon.html" (dict "name" "fa6-solid:arrow-up-right-from-square" "class" "transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1" "ctx" $page) }}
 {{- end }}
 </a>
+{{- end }}
 {{- end }}
 </div>
