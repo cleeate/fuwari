@@ -243,6 +243,10 @@ async function renderEcBlock(lang, meta, code) {
     '<div class="expressive-code">',
     '<div class="expressive-code"><script type="module" src="/js/ec.js"></script>',
   );
+  // Escape "{{" so Hugo does not parse it as a shortcode opener. Expressive
+  // Code wraps "{{" in its own <span>, so the output contains "{{</span>",
+  // which Hugo reads as a closing shortcode and fails the build.
+  html = html.replace(/\{\{/g, "&#123;&#123;");
   return html;
 }
 
