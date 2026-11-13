@@ -125,13 +125,17 @@ url = "https://github.com/cleeate/fuwari"
 [[params.navbarLinks]]
 preset = "home"
 url = "/"
+icon = "material-symbols:home"
 [[params.navbarLinks]]
 preset = "archive"
 url = "/archive/"
+icon = "material-symbols:archive"
 [[params.navbarLinks]]
 preset = "about"
 url = "/about/"
+icon = "material-symbols:person"
 [[params.navbarLinks]]
 name = "GitHub"
 url = "https://github.com/cleeate/fuwari"
 external = true
+icon = "fa6-brands:github"
