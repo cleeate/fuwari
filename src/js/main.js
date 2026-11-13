@@ -403,7 +403,9 @@ async function loadPagefind() {
 		document.dispatchEvent(new CustomEvent("pagefindloaderror"));
 	}
 }
-if (document.readyState === "loading") {
+if ("requestIdleCallback" in window) {
+	requestIdleCallback(() => loadPagefind(), { timeout: 3000 });
+} else if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", loadPagefind);
 } else {
 	loadPagefind();
